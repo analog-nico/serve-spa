@@ -7,7 +7,7 @@ var path = require('path');
 var rp = require('request-promise');
 
 
-describe('Regarding serving static files, Serve-SPA', function () {
+describe('Regarding rendering the template, Serve-SPA', function () {
 
     var server;
 
