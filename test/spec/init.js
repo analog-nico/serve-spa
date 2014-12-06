@@ -33,6 +33,10 @@ describe('Regarding its initialization, Serve-SPA', function () {
             initServeSpa(app, '/absolute.path', { require: false });
         }).to.throw('The require option must be if type function.');
 
+        expect(function () {
+            initServeSpa(app, path.join(__dirname, '../fixtures/invalid/preproc-export/'));
+        }).to.throw('The following preprocessing module does not export a function: ' + path.join(__dirname, '../fixtures/invalid/preproc-export/preproc.js'));
+
     });
 
     it('should fill the cache', function () {
