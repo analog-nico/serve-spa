@@ -72,4 +72,22 @@ describe('Regarding rendering the template, Serve-SPA', function () {
 
     });
 
+    it('should render undisturbed by a querystring', function () {
+
+        return rp('http://localhost:4000/without-preproc?query=string')
+            .then(function (body) {
+                expect(body).to.equal('without - /without-preproc/?query=string');
+            });
+
+    });
+
+    it('should render undisturbed by a hash', function () {
+
+        return rp('http://localhost:4000/without-preproc#some-hash')
+            .then(function (body) {
+                expect(body).to.equal('without - /without-preproc/');
+            });
+
+    });
+
 });
