@@ -13,7 +13,7 @@ describe('Regarding serving static files, Serve-SPA', function () {
 
     before(function (done) {
         var app = express();
-        serveSpa(app, path.join(__dirname, '../fixtures/serve-static/'));
+        serveSpa(app, path.join(__dirname, '../fixtures/serve/'));
         server = http.createServer(app);
         server.listen(4000, function () { done(); });
     });
