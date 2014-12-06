@@ -7,8 +7,6 @@ var path = require('path');
 var rp = require('request-promise');
 
 
-// TODO: Check if redirect to / works
-
 describe('Regarding serving static files, Serve-SPA', function () {
 
     var server;
@@ -57,6 +55,15 @@ describe('Regarding serving static files, Serve-SPA', function () {
         return rp({ uri: 'http://localhost:4000/preproc.js', simple: false, resolveWithFullResponse: true })
             .then(function (response) {
                 expect(response.statusCode).to.equal(404);
+            });
+
+    });
+
+    it('should forward with slash for directory', function () {
+
+        return rp('http://localhost:4000/sub1')
+            .then(function (body) {
+                expect(body).to.equal('sub1');
             });
 
     });
