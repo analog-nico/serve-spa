@@ -14,7 +14,7 @@ describe('Regarding rendering the template, Serve-SPA', function () {
     before(function (done) {
         var app = express();
         serveSpa(app, path.join(__dirname, '../fixtures/serve/'), {
-            lodashTemplateSettings: {
+            templateSettings: {
                 interpolate: /{{([\s\S]+?)}}/g
             }
         });
