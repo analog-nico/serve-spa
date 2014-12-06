@@ -1,5 +1,5 @@
 'use strict';
 
-module.exports = function (req, res, render) {
-    render();
+module.exports = function (req, res, next) {
+    next();
 };

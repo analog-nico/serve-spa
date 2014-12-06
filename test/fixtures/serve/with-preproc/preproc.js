@@ -1,5 +1,6 @@
 'use strict';
 
-module.exports = function (req, res, render) {
-    render({ test: "preproc'd" });
+module.exports = function (req, res, next) {
+    res.test = "preproc'd";
+    next();
 };

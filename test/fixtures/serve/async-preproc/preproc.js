@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function (req, res, render) {
+module.exports = function (req, res, next) {
     setTimeout(function () {
-        render({ test: "preproc'd" });
+        res.test = "preproc'd";
+        next();
     }, 10);
 };

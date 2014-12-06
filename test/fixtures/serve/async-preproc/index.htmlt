@@ -1,1 +1,1 @@
-async - <%= req.url %> - <%= test %>
+async - <%= req.url %> - <%= res.test %>
