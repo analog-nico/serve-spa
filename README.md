@@ -1,4 +1,5 @@
 # Serve-SPA
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/analog-nico/serve-spa?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [Express](http://expressjs.com) middleware to serve single page applications in a performant and SEO friendly way
 
