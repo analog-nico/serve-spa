@@ -3,6 +3,7 @@
 var initServeSpa = require('../../lib/index.js');
 var app = require('express')();
 var path = require('path');
+var _ = require('lodash');
 
 
 describe('Regarding its initialization, Serve-SPA', function () {
@@ -53,6 +54,32 @@ describe('Regarding its initialization, Serve-SPA', function () {
         expect(serveSpa.cache['/sub2/'].preproc).to.eql(undefined);
         expect(serveSpa.cache['/sub3/']).to.eql(undefined);
         expect(serveSpa.cache['/sub4/']).to.eql(undefined);
+
+    });
+
+    it('should discover the static files', function () {
+
+        var serveSpa = initServeSpa(app, path.join(__dirname, '../fixtures/serve/'));
+
+        expect(_.keys(serveSpa.staticFiles)).to.eql([
+            '/async-preproc',
+            '/async-preproc/index.htmlt',
+            '/async-preproc/preproc.js',
+            '/index.htmlt',
+            '/preproc.js',
+            '/sub1',
+            '/sub1/index.htmlt',
+            '/sub1/test.json',
+            '/test',
+            '/test.json',
+            '/tmpl-settings',
+            '/tmpl-settings/index.htmlt',
+            '/with-preproc',
+            '/with-preproc/index.htmlt',
+            '/with-preproc/preproc.js',
+            '/without-preproc',
+            '/without-preproc/index.htmlt'
+        ]);
 
     });
 

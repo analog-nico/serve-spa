@@ -8,7 +8,8 @@
     "serve",
     "static",
     "spa",
-    "seo"
+    "seo",
+    "pushState"
   ],
   "homepage": "https://github.com/analog-nico/serve-spa",
   "bugs": {

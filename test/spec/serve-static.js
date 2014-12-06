@@ -68,4 +68,13 @@ describe('Regarding serving static files, Serve-SPA', function () {
 
     });
 
+    it('should forward with slash for root directory', function () {
+
+        return rp('http://localhost:4000')
+            .then(function (body) {
+                expect(body).to.equal('advanced - / - / - false - false - /foo/bar/baz');
+            });
+
+    });
+
 });
