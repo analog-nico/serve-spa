@@ -32,11 +32,29 @@ describe('Regarding serving static files, Serve-SPA', function () {
 
     });
 
-    it('should render without preprocessing', function () {
+    it('should render with preprocessing', function () {
 
         return rp('http://localhost:4000/with-preproc')
             .then(function (body) {
                 expect(body).to.equal("with - /with-preproc/ - preproc'd");
+            });
+
+    });
+
+    it('should render with async preprocessing', function () {
+
+        return rp('http://localhost:4000/async-preproc')
+            .then(function (body) {
+                expect(body).to.equal("async - /async-preproc/ - preproc'd");
+            });
+
+    });
+
+    it('should provide req, res, and require for rendering', function () {
+
+        return rp('http://localhost:4000/')
+            .then(function (body) {
+                expect(body).to.equal("advanced - / - / - false - false - /foo/bar/baz");
             });
 
     });

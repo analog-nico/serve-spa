@@ -1,1 +1,1 @@
-root
+advanced - <%= request.url %> - <%= req.url %> - <%= response.finished %> - <%= res.finished %> - <%= require('path').normalize('/foo/bar//baz') %>
