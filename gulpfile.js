@@ -101,6 +101,10 @@ gulp.task('ci', function (done) {
     runSequence('validate', 'coveralls', 'test-without-coverage', done);
 });
 
+gulp.task('ci-no-cov', function (done) {
+    runSequence('lint', 'test-without-coverage', done);
+});
+
 gulp.task('coveralls', function () {
     return gulp.src('coverage/**/lcov.info')
         .pipe(coveralls());

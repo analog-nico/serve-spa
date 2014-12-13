@@ -16,4 +16,4 @@ build: off
 test_script:
   - node --version
   - npm --version
-  - cmd: npm test
+  - cmd: node_modules/.bin/gulp ci-no-cov
