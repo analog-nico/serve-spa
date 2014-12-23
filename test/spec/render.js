@@ -50,6 +50,15 @@ describe('Regarding rendering the template, Serve-SPA', function () {
 
     });
 
+    it('should allow a router to be used for preprocessing', function () {
+
+        return rp('http://localhost:4000/preproc-with-router/edit/0123456789')
+            .then(function (body) {
+                expect(body).to.equal("with - /preproc-with-router/edit/0123456789 - 0123456789");
+            });
+
+    });
+
     it('should provide req, res, and require for rendering', function () {
 
         return rp('http://localhost:4000/')

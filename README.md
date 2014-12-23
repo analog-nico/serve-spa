@@ -83,8 +83,10 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v0.1.1 (2014-12-22)
+    - Allowing preproc.js to export an `express.Router()`
 - v0.1.0 (2014-12-06)
-	- Initial version
+    - Initial version
 
 ## License (ISC)
 
