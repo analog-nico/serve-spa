@@ -55,7 +55,7 @@ Description forthcoming.
 
 Description forthcoming.
 
-### The Preprocessing Script(s) "preproc.js"
+### The Composing Script(s) "compose.js"
 
 Description forthcoming.
 

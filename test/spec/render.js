@@ -23,38 +23,38 @@ describe('Regarding rendering the template, Serve-SPA', function () {
     });
 
 
-    it('should render without preprocessing', function () {
+    it('should render without composing', function () {
 
-        return rp('http://localhost:4000/without-preproc')
+        return rp('http://localhost:4000/without-compose')
             .then(function (body) {
-                expect(body).to.equal('without - /without-preproc/');
+                expect(body).to.equal('without - /without-compose/');
             });
 
     });
 
-    it('should render with preprocessing', function () {
+    it('should render with composing', function () {
 
-        return rp('http://localhost:4000/with-preproc')
+        return rp('http://localhost:4000/with-compose')
             .then(function (body) {
-                expect(body).to.equal("with - /with-preproc/ - preproc'd");
+                expect(body).to.equal("with - /with-compose/ - composed");
             });
 
     });
 
-    it('should render with async preprocessing', function () {
+    it('should render with async composing', function () {
 
-        return rp('http://localhost:4000/async-preproc')
+        return rp('http://localhost:4000/async-compose')
             .then(function (body) {
-                expect(body).to.equal("async - /async-preproc/ - preproc'd");
+                expect(body).to.equal("async - /async-compose/ - composed");
             });
 
     });
 
-    it('should allow a router to be used for preprocessing', function () {
+    it('should allow a router to be used for composing', function () {
 
-        return rp('http://localhost:4000/preproc-with-router/edit/0123456789')
+        return rp('http://localhost:4000/compose-with-router/edit/0123456789')
             .then(function (body) {
-                expect(body).to.equal("with - /preproc-with-router/edit/0123456789 - 0123456789");
+                expect(body).to.equal("with - /compose-with-router/edit/0123456789 - 0123456789");
             });
 
     });
@@ -83,18 +83,18 @@ describe('Regarding rendering the template, Serve-SPA', function () {
 
     it('should render undisturbed by a querystring', function () {
 
-        return rp('http://localhost:4000/without-preproc?query=string')
+        return rp('http://localhost:4000/without-compose?query=string')
             .then(function (body) {
-                expect(body).to.equal('without - /without-preproc/?query=string');
+                expect(body).to.equal('without - /without-compose/?query=string');
             });
 
     });
 
     it('should render undisturbed by a hash', function () {
 
-        return rp('http://localhost:4000/without-preproc#some-hash')
+        return rp('http://localhost:4000/without-compose#some-hash')
             .then(function (body) {
-                expect(body).to.equal('without - /without-preproc/');
+                expect(body).to.equal('without - /without-compose/');
             });
 
     });

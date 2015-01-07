@@ -14,7 +14,7 @@ describe('Regarding rendering the template, Serve-SPA', function () {
     before(function (done) {
 
         var app = express();
-        serveSpa(app, path.join(__dirname, '../fixtures/invalid/preproc-error'));
+        serveSpa(app, path.join(__dirname, '../fixtures/invalid/compose-error'));
 
         app.use(function(err, req, res, next) {
             res.statusCode = 500;
@@ -31,7 +31,7 @@ describe('Regarding rendering the template, Serve-SPA', function () {
     });
 
 
-    it('should handle a preprocessing error', function () {
+    it('should handle a composing error', function () {
 
         return rp({ uri: 'http://localhost:4000/', simple: false, resolveWithFullResponse: true })
             .then(function (response) {

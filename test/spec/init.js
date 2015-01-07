@@ -35,8 +35,8 @@ describe('Regarding its initialization, Serve-SPA', function () {
         }).to.throw('The require option must be if type function.');
 
         expect(function () {
-            initServeSpa(app, path.join(__dirname, '../fixtures/invalid/preproc-export/'));
-        }).to.throw('The following preprocessing module does not export a function: ' + path.join(__dirname, '../fixtures/invalid/preproc-export/preproc.js'));
+            initServeSpa(app, path.join(__dirname, '../fixtures/invalid/compose-export/'));
+        }).to.throw('The following composing module does not export a function: ' + path.join(__dirname, '../fixtures/invalid/compose-export/compose.js'));
 
     });
 
@@ -45,13 +45,13 @@ describe('Regarding its initialization, Serve-SPA', function () {
         var serveSpa = initServeSpa(app, path.join(__dirname, '../fixtures/init/'));
 
         expect(serveSpa.cache['/'].template).to.eql('root');
-        expect(serveSpa.cache['/'].preproc.loc).to.eql('root');
+        expect(serveSpa.cache['/'].compose.loc).to.eql('root');
         expect(serveSpa.cache['/sub1/'].template).to.eql('sub1');
-        expect(serveSpa.cache['/sub1/'].preproc.loc).to.eql('sub1');
+        expect(serveSpa.cache['/sub1/'].compose.loc).to.eql('sub1');
         expect(serveSpa.cache['/sub1/subsub1/'].template).to.eql('subsub1');
-        expect(serveSpa.cache['/sub1/subsub1/'].preproc.loc).to.eql('subsub1');
+        expect(serveSpa.cache['/sub1/subsub1/'].compose.loc).to.eql('subsub1');
         expect(serveSpa.cache['/sub2/'].template).to.eql('sub2');
-        expect(serveSpa.cache['/sub2/'].preproc).to.eql(undefined);
+        expect(serveSpa.cache['/sub2/'].compose).to.eql(undefined);
         expect(serveSpa.cache['/sub3/']).to.eql(undefined);
         expect(serveSpa.cache['/sub4/']).to.eql(undefined);
 
@@ -62,14 +62,14 @@ describe('Regarding its initialization, Serve-SPA', function () {
         var serveSpa = initServeSpa(app, path.join(__dirname, '../fixtures/serve/'));
 
         expect(_.keys(serveSpa.staticFiles)).to.eql([
-            '/async-preproc',
-            '/async-preproc/index.htmlt',
-            '/async-preproc/preproc.js',
+            '/async-compose',
+            '/async-compose/compose.js',
+            '/async-compose/index.htmlt',
+            '/compose-with-router',
+            '/compose-with-router/compose.js',
+            '/compose-with-router/index.htmlt',
+            '/compose.js',
             '/index.htmlt',
-            '/preproc-with-router',
-            '/preproc-with-router/index.htmlt',
-            '/preproc-with-router/preproc.js',
-            '/preproc.js',
             '/sub1',
             '/sub1/index.htmlt',
             '/sub1/test.json',
@@ -77,11 +77,11 @@ describe('Regarding its initialization, Serve-SPA', function () {
             '/test.json',
             '/tmpl-settings',
             '/tmpl-settings/index.htmlt',
-            '/with-preproc',
-            '/with-preproc/index.htmlt',
-            '/with-preproc/preproc.js',
-            '/without-preproc',
-            '/without-preproc/index.htmlt'
+            '/with-compose',
+            '/with-compose/compose.js',
+            '/with-compose/index.htmlt',
+            '/without-compose',
+            '/without-compose/index.htmlt'
         ]);
 
     });

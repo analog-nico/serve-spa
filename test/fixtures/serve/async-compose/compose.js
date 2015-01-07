@@ -2,7 +2,7 @@
 
 module.exports = function (req, res, next) {
     setTimeout(function () {
-        res.test = "preproc'd";
+        res.test = "composed";
         next();
     }, 10);
 };

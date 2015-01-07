@@ -50,9 +50,9 @@ describe('Regarding serving static files, Serve-SPA', function () {
 
     });
 
-    it('should return a 404 for preproc.js', function () {
+    it('should return a 404 for compose.js', function () {
 
-        return rp({ uri: 'http://localhost:4000/preproc.js', simple: false, resolveWithFullResponse: true })
+        return rp({ uri: 'http://localhost:4000/compose.js', simple: false, resolveWithFullResponse: true })
             .then(function (response) {
                 expect(response.statusCode).to.equal(404);
             });
