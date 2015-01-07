@@ -83,6 +83,8 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v0.2.0 (2015-01-06)
+    - **Breaking Change:** Renamed preproc.js to compose.js
 - v0.1.1 (2014-12-22)
     - Allowing preproc.js to export an `express.Router()`
 - v0.1.0 (2014-12-06)
