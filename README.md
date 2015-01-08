@@ -1,6 +1,6 @@
 # Serve-SPA
 
-[Express](http://expressjs.com) middleware to serve single page applications in a performant and SEO friendly way
+[Express](http://expressjs.com) middleware to serve Single Page Applications in a performant and Google-friendly way
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/analog-nico/serve-spa?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -8,11 +8,21 @@ Linux: [![Linux Build Status](https://travis-ci.org/analog-nico/serve-spa.svg?br
 
 ## Why?
 
-Single page applications like those built based on [Backbone](http://backbonejs.org), [Ember](http://emberjs.com), or [Angular](https://angularjs.org) follow an architectural pattern that is great in many ways but one: SEO friendliness. A common solution is to serve the SPA only to humans and pre-rendered pages to searchbots. However, there must be a better solution than maintaining a second code base or increasing the code complexity by making it isomorphic.
+### Initial Page Load Performance
 
-When Google [announced that their bots execute JavaScript](http://googlewebmastercentral.blogspot.com/2014/05/understanding-web-pages-better.html), SPAs should finally be searchable, right? Not quite: Usually pages are rendered after at least one initial AJAX request returns from the server containing the data with which the page is populated. That long, however, the Google bot is not waiting.
+This is how a regular SPA (using Angular.js in this case) gets loaded:
 
-If you want to implement a SEO friendly SPA without any complicated handling of its search-ability you need to get it right. Serve-SPA allows you to do so.
+![Timeline regular SPA](misc/timeline_regular.png)
+
+The time until the user sees the page is significantly increased by the two AJAX requests "list.html" which is a HTML template and "projects" which is the JSON data used to populate the page.
+
+With Serve-SPA you can easily inline the template / data into the index.html so that the AJAX calls are skipped and the page gets rendered immediately:
+
+![Timeline precomposed SPA](misc/timeline_precomposed.png)
+
+### SEO-Friendliness
+
+SPAs served with this library are crawlable by Google. I explained this aspect in more detail in a [blog post](http://www.analog-ni.co/precomposing-a-spa-may-become-the-holy-grail-to-seo).
 
 ## Getting Started
 
@@ -29,7 +39,7 @@ To be SEO friendly the SPA must not make any AJAX request before rendering a pag
 
 ### Migrating a Simple SPA
 
-Screencast forthcoming.
+Screencast forthcoming. It will explain how and why I turned a [regular Angular.js-based SPA](https://github.com/analog-nico/serve-spa-demos/tree/master/demos/angularjs/original) into a [precomposed SPA served with Serve-SPA](https://github.com/analog-nico/serve-spa-demos/tree/master/demos/angularjs/precomposed). Make a diff and you will see the required changes.
 
 ## Installation
 
@@ -71,7 +81,7 @@ Description forthcoming.
 
 To set up your development environment for Serve-SPA:
 
-1. Clone the repo to your desktop,
+1. Clone this repo to your desktop,
 2. in the shell `cd` to the main folder,
 3. hit `npm install`,
 4. hit `npm install gulp -g` if you haven't installed gulp globally yet, and
