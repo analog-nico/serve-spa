@@ -26,16 +26,21 @@ SPAs served with this library are crawlable by Google. I explained this aspect i
 
 ## Getting Started
 
-If you already serve your SPA with the [express.static middleware](http://expressjs.com/guide/using-middleware.html#express.static) and maybe a router / routes to support pushState you will be able to serve it with Serve-SPA instead. Then you need to make intuitive changes regarding how to bundle and load your resources and data. These changes not only make your SPA SEO friendly but also improve the performance for your human users. So you might want to do those changes anyway.
+### Roughly speaking...
+
+If you already serve your SPA with the [express.static middleware](http://expressjs.com/guide/using-middleware.html#express.static) you will be able to serve it with Serve-SPA instead:
+
+``` js
+// Just replace:
+app.use(express.static(appDir));
+
+// with:
+serveSpa(app, appDir);
+```
+
+Then you rename your `index.html` files to `index.htmlt` which gives you templating functionality to inline HTML templates and JSON data into the HTML served for each request. If you need to e.g. fetch the data from your database beforehand you can add a `compose.js` file alongside to do so.
 
 BTW, Serve-SPA does not make any assumptions about how your SPA is implemented client-side. Any implementation should be able to work with the changes that need to be made server-side.
-
-### The Architecture
-
-To be SEO friendly the SPA must not make any AJAX request before rendering a page client-side. For that:
-
- - All required resources (JavaScript, HTML templates) need to be directly linked or inlined into the main HTML file. This can be done either manually or through bundlers like [Browserify](http://browserify.org) or [Webpack](http://webpack.github.io) (recommended).
- - And data that would otherwise be requested through initial AJAX calls need to be inlined into the main HTML file for each initial page visit so that the AJAX calls can be skipped and the page rendered immediately.
 
 ### Migrating a Simple SPA
 
