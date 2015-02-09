@@ -98,6 +98,8 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v0.2.1 (2015-02-09)
+    - Updated serve-static to fix [vulnerability](https://nodesecurity.io/advisories/serve-static-open-redirect)
 - v0.2.0 (2015-01-09)
     - **Breaking Change:** Renamed preproc.js to compose.js
 - v0.1.1 (2014-12-22)
