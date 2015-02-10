@@ -100,12 +100,10 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
-- v0.2.2 (2015-02-10)
+- v0.2.1 (2015-02-10)
     - Fix for using `express.Router()` in compose.js
     - Increased serve-static dependency to ^1.7.2 to fix a [vulnerability](https://nodesecurity.io/advisories/serve-static-open-redirect)
     - Added Node.js 0.12 and io.js to the Linux build
-- v0.2.1 (2015-02-09)
-    - Updated serve-static to fix [vulnerability](https://nodesecurity.io/advisories/serve-static-open-redirect)
 - v0.2.0 (2015-01-09)
     - **Breaking Change:** Renamed preproc.js to compose.js
 - v0.1.1 (2014-12-22)
