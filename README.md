@@ -56,6 +56,8 @@ The module for node.js is installed via npm:
 npm install serve-spa --save
 ```
 
+Serve-SPA depends on a loosely defined version of serve-static. If you want to install a specific version please install serve-static beforehand.
+
 ## Usage
 
 ### Initialization
