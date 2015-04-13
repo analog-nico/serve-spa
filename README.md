@@ -100,7 +100,7 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
-- v0.2.2 (forthcoming)
+- v0.2.2 (2015-04-12)
     - index.htmlt files are validated during startup
     - Updated dependencies
 - v0.2.1 (2015-02-10)
