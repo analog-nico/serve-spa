@@ -44,13 +44,13 @@ describe('Regarding its initialization, Serve-SPA', function () {
 
         var serveSpa = initServeSpa(app, path.join(__dirname, '../fixtures/init/'));
 
-        expect(serveSpa.cache['/'].template).to.eql('root');
+        expect(serveSpa.cache['/'].template()).to.eql('root');
         expect(serveSpa.cache['/'].compose.loc).to.eql('root');
-        expect(serveSpa.cache['/sub1/'].template).to.eql('sub1');
+        expect(serveSpa.cache['/sub1/'].template()).to.eql('sub1');
         expect(serveSpa.cache['/sub1/'].compose.loc).to.eql('sub1');
-        expect(serveSpa.cache['/sub1/subsub1/'].template).to.eql('subsub1');
+        expect(serveSpa.cache['/sub1/subsub1/'].template()).to.eql('subsub1');
         expect(serveSpa.cache['/sub1/subsub1/'].compose.loc).to.eql('subsub1');
-        expect(serveSpa.cache['/sub2/'].template).to.eql('sub2');
+        expect(serveSpa.cache['/sub2/'].template()).to.eql('sub2');
         expect(serveSpa.cache['/sub2/'].compose).to.eql(undefined);
         expect(serveSpa.cache['/sub3/']).to.eql(undefined);
         expect(serveSpa.cache['/sub4/']).to.eql(undefined);

@@ -13,7 +13,7 @@ describe('Regarding rendering the template, Serve-SPA', function () {
 
     before(function (done) {
         var app = express();
-        serveSpa(app, path.join(__dirname, '../fixtures/serve/'), {
+        serveSpa(app, path.join(__dirname, '../fixtures/serve/tmpl-settings/'), {
             templateSettings: {
                 interpolate: /{{([\s\S]+?)}}/g
             }
@@ -29,9 +29,9 @@ describe('Regarding rendering the template, Serve-SPA', function () {
 
     it('should render with different template settings', function () {
 
-        return rp('http://localhost:4000/tmpl-settings/')
+        return rp('http://localhost:4000/')
             .then(function (body) {
-                expect(body).to.equal('tmpl - /tmpl-settings/');
+                expect(body).to.equal('tmpl - /');
             });
 
     });
