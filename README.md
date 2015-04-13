@@ -101,6 +101,7 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 ## Change History
 
 - v0.2.2 (forthcoming)
+    - index.htmlt files are validated during startup
     - Updated dependencies
 - v0.2.1 (2015-02-10)
     - Fix for using `express.Router()` in compose.js

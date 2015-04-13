@@ -86,4 +86,16 @@ describe('Regarding its initialization, Serve-SPA', function () {
 
     });
 
+    it('should abort when invalid template found', function () {
+
+        expect(function () {
+            initServeSpa(app, path.join(__dirname, '../fixtures/serve/'), {
+                templateSettings: {
+                    interpolate: /{{([\s\S]+?)}}/g // This makes _.template(...) fail
+                }
+            });
+        }).to.throw();
+
+    });
+
 });
