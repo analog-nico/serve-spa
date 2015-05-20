@@ -50,6 +50,15 @@ describe('Regarding pushState support, Serve-SPA', function () {
 
     });
 
+    it('should render for the current folder is the subfile does not exist 2', function () {
+
+        return rp('http://localhost:4000/sub1/nonexisting')
+            .then(function (body) {
+                expect(body).to.equal('sub1');
+            });
+
+    });
+
     it('should still serve the files without file extension', function () {
 
         return rp('http://localhost:4000/test')
