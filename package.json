@@ -1,6 +1,6 @@
 {
   "name": "serve-spa",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Express middleware to serve single page applications in a performant and SEO friendly way",
   "keywords": [
     "express",

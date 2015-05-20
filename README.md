@@ -100,6 +100,9 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v0.2.3 (2015-05-20)
+    - Fixed matching templates to pushState URLs
+    - Updated dependencies
 - v0.2.2 (2015-04-12)
     - index.htmlt files are validated during startup
     - Updated dependencies
