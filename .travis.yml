@@ -3,7 +3,8 @@ language: node_js
 node_js:
   - "0.10"
   - "0.12"
-  - iojs
+  - "iojs"
+  - "4"
 
 env:
   - V_SERVE_STATIC=1.7.2
