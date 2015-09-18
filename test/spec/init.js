@@ -35,6 +35,10 @@ describe('Regarding its initialization, Serve-SPA', function () {
         }).to.throw('The require option must be if type function.');
 
         expect(function () {
+            initServeSpa(app, '/absolute.path', { beforeAll: false });
+        }).to.throw('The beforeAll option must be if type function.');
+
+        expect(function () {
             initServeSpa(app, path.join(__dirname, '../fixtures/invalid/compose-export/'));
         }).to.throw('The following composing module does not export a function: ' + path.join(__dirname, '../fixtures/invalid/compose-export/compose.js'));
 
@@ -65,6 +69,9 @@ describe('Regarding its initialization, Serve-SPA', function () {
             '/async-compose',
             '/async-compose/compose.js',
             '/async-compose/index.htmlt',
+            '/beforeAll-hook',
+            '/beforeAll-hook/compose.js',
+            '/beforeAll-hook/index.htmlt',
             '/compose-with-router',
             '/compose-with-router/compose.js',
             '/compose-with-router/index.htmlt',
