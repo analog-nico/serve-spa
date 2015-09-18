@@ -100,6 +100,9 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v0.3.0 (2015-09-18)
+    - Added beforeAll hook
+    - Updated dependencies
 - v0.2.3 (2015-05-20)
     - Fixed matching templates to pushState URLs
     - Updated dependencies
