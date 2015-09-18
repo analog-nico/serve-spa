@@ -41,11 +41,12 @@ describe('Regarding serving static files, Serve-SPA', function () {
 
     });
 
-    it('should return a 404 for index.html', function () {
+    it('should return a 404 for index.htmlt', function () {
 
         return rp({ uri: 'http://localhost:4000/index.htmlt', simple: false, resolveWithFullResponse: true })
             .then(function (response) {
                 expect(response.statusCode).to.equal(404);
+                expect(response.body).to.eql('Not Found');
             });
 
     });
@@ -55,6 +56,7 @@ describe('Regarding serving static files, Serve-SPA', function () {
         return rp({ uri: 'http://localhost:4000/compose.js', simple: false, resolveWithFullResponse: true })
             .then(function (response) {
                 expect(response.statusCode).to.equal(404);
+                expect(response.body).to.eql('Not Found');
             });
 
     });
