@@ -86,4 +86,14 @@ describe('If there are no templates, Serve-SPA', function () {
 
     });
 
+    it('should not execute compose.js', function () {
+
+        return rp({ uri: 'http://localhost:4000/compose/', simple: false, resolveWithFullResponse: true })
+            .then(function (response) {
+                expect(response.statusCode).to.equal(404);
+                expect(response.body).to.equal('Cannot GET /compose/\n');
+            });
+
+    });
+
 });
