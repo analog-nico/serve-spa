@@ -13,16 +13,19 @@ describe('Regarding the beforeAll hook, Serve-SPA', function () {
 
     before(function (done) {
         var app = express();
-        serveSpa(app, path.join(__dirname, '../fixtures/serve/'), {
+        serveSpa(app, path.join(__dirname, '../fixtures/serve-no-pushstate/'), {
 
             beforeAll: function (req, res, next) {
 
                 switch (req.path) {
+                    case '/push/state/url':
+                        res.send('before called :(');
+                        return;
                     case '/beforeAll-hook/own':
                         res.send('own');
                         return;
                     case '/beforeAll-hook/redirect':
-                        res.redirect('http://localhost:4000/sub1/');
+                        res.redirect('http://localhost:4000/');
                         return;
                 }
 
@@ -64,7 +67,16 @@ describe('Regarding the beforeAll hook, Serve-SPA', function () {
 
         return rp('http://localhost:4000/beforeAll-hook/redirect')
             .then(function (body) {
-                expect(body).to.equal('sub1');
+                expect(body).to.equal('not loaded for pushstate urls\n');
+            });
+
+    });
+
+    it('should only be called when serving a template', function () {
+
+        return rp({ uri: 'http://localhost:4000/push/state/url', simple: false, resolveWithFullResponse: true })
+            .then(function (response) {
+                expect(response.statusCode).to.equal(404);
             });
 
     });

@@ -67,7 +67,6 @@ describe('Regarding its initialization, Serve-SPA', function () {
 
         expect(_.keys(serveSpa.staticFiles)).to.eql([
             '/async-compose',
-            '/beforeAll-hook',
             '/compose-with-router',
             '/sub1',
             '/sub1/test.json',
