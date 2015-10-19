@@ -67,28 +67,15 @@ describe('Regarding its initialization, Serve-SPA', function () {
 
         expect(_.keys(serveSpa.staticFiles)).to.eql([
             '/async-compose',
-            '/async-compose/compose.js',
-            '/async-compose/index.htmlt',
             '/beforeAll-hook',
-            '/beforeAll-hook/compose.js',
-            '/beforeAll-hook/index.htmlt',
             '/compose-with-router',
-            '/compose-with-router/compose.js',
-            '/compose-with-router/index.htmlt',
-            '/compose.js',
-            '/index.htmlt',
             '/sub1',
-            '/sub1/index.htmlt',
             '/sub1/test.json',
             '/test',
             '/test.json',
             '/tmpl-settings',
-            '/tmpl-settings/index.htmlt',
             '/with-compose',
-            '/with-compose/compose.js',
-            '/with-compose/index.htmlt',
-            '/without-compose',
-            '/without-compose/index.htmlt'
+            '/without-compose'
         ]);
 
     });

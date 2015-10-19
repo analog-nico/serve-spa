@@ -41,22 +41,20 @@ describe('Regarding serving static files, Serve-SPA', function () {
 
     });
 
-    it('should return a 404 for index.htmlt', function () {
+    it('should ignore index.htmlt files and serve the parent folder instead', function () {
 
-        return rp({ uri: 'http://localhost:4000/index.htmlt', simple: false, resolveWithFullResponse: true })
-            .then(function (response) {
-                expect(response.statusCode).to.equal(404);
-                expect(response.body).to.eql('Not Found');
+        return rp({ uri: 'http://localhost:4000/index.htmlt' })
+            .then(function (body) {
+                expect(body).to.equal("advanced - /index.htmlt - /index.htmlt - false - false - /foo/bar/baz");
             });
 
     });
 
-    it('should return a 404 for compose.js', function () {
+    it('should ignore compose.js files and serve the parent folder instead', function () {
 
-        return rp({ uri: 'http://localhost:4000/compose.js', simple: false, resolveWithFullResponse: true })
-            .then(function (response) {
-                expect(response.statusCode).to.equal(404);
-                expect(response.body).to.eql('Not Found');
+        return rp({ uri: 'http://localhost:4000/compose.js' })
+            .then(function (body) {
+                expect(body).to.equal("advanced - /compose.js - /compose.js - false - false - /foo/bar/baz");
             });
 
     });
