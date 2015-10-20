@@ -1,12 +1,34 @@
 # Serve-SPA
 
-[Express](http://expressjs.com) middleware to serve Single Page Applications in a performant and Google-friendly way
+[Express](http://expressjs.com) middleware to serve Single Page Applications with pushState urls and increased performance
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/analog-nico/serve-spa?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Linux: [![Linux Build Status](https://travis-ci.org/analog-nico/serve-spa.svg?branch=master)](https://travis-ci.org/analog-nico/serve-spa) [![Coverage Status](https://coveralls.io/repos/analog-nico/serve-spa/badge.png)](https://coveralls.io/r/analog-nico/serve-spa?branch=master) Windows: [![Windows Build Status](https://ci.appveyor.com/api/projects/status/b6ps2l9im3rr6eqh/branch/master?svg=true)](https://ci.appveyor.com/project/analog-nico/serve-spa/branch/master) General: [![Dependency Status](https://david-dm.org/analog-nico/serve-spa.svg)](https://david-dm.org/analog-nico/serve-spa)
 
 ## Why?
+
+### pushState Url Support
+
+Serve-SPA behaves like the [express.static middleware](http://expressjs.com/guide/using-middleware.html#express.static). However, if a pushState url is requested Serve-SPA does not return a 404 but instead serves the matching SPA page.
+
+Assume you have this very simple SPA served from this folder:
+
+```
+spa
+ |-- index.html
+ |-- app.js
+```
+
+At first a visitor usually loads you SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognizes `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches *most* of the given url, i.e. `http://localhost:3000/`.
+
+All you need to do to activate pushState url support is to rename your `index.html` files to `index.htmlt` (with a t). I.e.:
+
+```
+spa
+ |-- index.htmlt <-- Just renamed an pushState urls are supported
+ |-- app.js
+```
 
 ### Initial Page Load Performance
 
@@ -16,13 +38,50 @@ This is how a regular SPA (using Angular.js in this case) gets loaded:
 
 The time until the user sees the page is significantly increased by the two AJAX requests "list.html" which is a HTML template and "projects" which is the JSON data used to populate the page.
 
-With Serve-SPA you can easily inline the template / data into the index.html so that the AJAX calls are skipped and the page gets rendered immediately:
+With Serve-SPA you can easily inline the template / data into the `index.htmlt` so that the AJAX calls are skipped and the page gets rendered immediately:
 
 ![Timeline precomposed SPA](misc/timeline_precomposed.png)
 
-### SEO-Friendliness
+Serve-SPA brings the power of [lodash's templating](https://lodash.com/docs#template) to your `index.htmlt` files. The above example for the regular SPA uses this html page:
 
-SPAs served with this library are crawlable by Google. I explained this aspect in more detail in a [blog post](http://www.analog-ni.co/precomposing-a-spa-may-become-the-holy-grail-to-seo).
+``` html
+<!doctype html>
+<html ng-app="project">
+    <head>
+        <title>Pure Angular.js SPA</title>
+        <script src="/bower_components/angular/angular.min.js"></script>
+        <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="/bower_components/angular-route/angular-route.min.js"></script>
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <script src="/scripts/app.js"></script>
+        <base href="/">
+    </head>
+    <body>
+        <div class="container">
+            <h1>JavaScript Projects</h1>
+            <div ng-view></div>
+        </div>
+    </body>
+</html>
+```
+
+If the visitor requests `http://localhost:3000/` this SPA need the `list.html` template to render. To reduce an AJAX call the template should be inlined. However, since other pushState urls don't need this template it should only be inlined if `http://localhost:3000/` is requested. This can be accomplished with the following addition to `index.htmlt`:
+
+``` html
+    <body>
++        <% if (req.path === '/') { %>
++            <script type="text/ng-template" id="partials/list.html">
++                <%= require('fs').readFileSync('app/partials/list.html') %>
++            </script>
++        <% } %>
+        <div class="container">
+            <h1>JavaScript Projects</h1>
+            <div ng-view></div>
+        </div>
+    </body>
+```
+
+There are ways (e.g. using `compose.js`) to implement this in a cleaner way but you get the idea.
 
 ## Getting Started
 
@@ -38,7 +97,7 @@ app.use(express.static(appDir));
 serveSpa(app, appDir);
 ```
 
-Then you rename your `index.html` files to `index.htmlt` which gives you templating functionality to inline HTML templates and JSON data into the HTML served for each request. If you need to e.g. fetch the data from your database beforehand you can add a `compose.js` file alongside to do so.
+Then you rename your `index.html` files to `index.htmlt` which gives you pushState url support and templating functionality to inline HTML templates and JSON data into the HTML served for each request. If you need to e.g. fetch the data from your database beforehand you can add a `compose.js` file alongside to do so.
 
 BTW, Serve-SPA does not make any assumptions about how your SPA is implemented client-side. Any implementation should be able to work with the changes that need to be made server-side.
 

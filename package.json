@@ -1,14 +1,13 @@
 {
   "name": "serve-spa",
   "version": "0.3.0",
-  "description": "Express middleware to serve single page applications in a performant and SEO friendly way",
+  "description": "Express middleware to serve Single Page Applications with pushState urls and increased performance",
   "keywords": [
     "express",
     "middleware",
     "serve",
     "static",
     "spa",
-    "seo",
     "pushState"
   ],
   "homepage": "https://github.com/analog-nico/serve-spa",
