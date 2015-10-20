@@ -85,8 +85,6 @@ There are ways (e.g. using `compose.js`) to implement this in a cleaner and non-
 
 ## Getting Started
 
-### Roughly speaking...
-
 If you already serve your SPA with the [express.static middleware](http://expressjs.com/guide/using-middleware.html#express.static) you will be able to serve it with Serve-SPA instead:
 
 ``` js
@@ -97,13 +95,48 @@ app.use(express.static(appDir));
 serveSpa(app, appDir);
 ```
 
-Then you rename your `index.html` files to `index.htmlt` which gives you pushState url support and templating functionality to inline HTML templates and JSON data into the HTML served for each request. If you need to e.g. fetch the data from your database beforehand you can add a `compose.js` file alongside to do so.
+Then you rename your `index.html` files to `index.htmlt`.
+
+``` diff
+app
+ |-- blog
+ |    |-- img
+ |    |    |-- ...
+ |    |
+-|    |-- index.html
++|    |-- index.htmlt
+ |    |-- blog.css
+ |    |-- blog.js
+ |
+-|-- index.html
++|-- index.htmlt
+ |-- main.css
+ |-- main.js
+```
+
+This gives you pushState url support and templating functionality to inline HTML templates and JSON data into the HTML served for each request. If you need to e.g. fetch the data from your database beforehand you can add a `compose.js` file alongside to do so:
+
+``` diff
+app
+ |-- blog
+ |    |-- img
+ |    |    |-- ...
+ |    |
++|    |-- compose.js  // May load latest article headlines from the database
+ |    |-- index.htmlt // May inline article headline so the browser spares an AJAX call
+ |    |-- blog.css
+ |    |-- blog.js
+ |
+ |-- index.htmlt
+ |-- main.css
+ |-- main.js
+```
 
 BTW, Serve-SPA does not make any assumptions about how your SPA is implemented client-side. Any implementation should be able to work with the changes that need to be made server-side.
 
-### Migrating a Simple SPA
+### Migrating Your SPA
 
-Screencast forthcoming. It will explain how and why I turned a [regular Angular.js-based SPA](https://github.com/analog-nico/serve-spa-demos/tree/master/demos/angularjs/original) into a [precomposed SPA served with Serve-SPA](https://github.com/analog-nico/serve-spa-demos/tree/master/demos/angularjs/precomposed). Make a diff and you will see the required changes.
+Checkout the [Serve-SPA Demos repo](https://github.com/analog-nico/serve-spa-demos) which aims to provide regular and migrated versions of SPA for well-known SPA frameworks. To e.g. see how to migrate a Angular.js based SPA make a diff between [its regular implementation](https://github.com/analog-nico/serve-spa-demos/tree/master/demos/angularjs/original) and [the precomposed version](https://github.com/analog-nico/serve-spa-demos/tree/master/demos/angularjs/precomposed) which takes full advantage of Serve-SPA.
 
 ## Installation
 
@@ -121,39 +154,147 @@ Serve-SPA depends on a loosely defined version of serve-static. If you want to i
 
 ### Initialization
 
-Description forthcoming.
+``` js
+var serveSpa = require('serve-spa');
+
+serveSpa(appOrRouter, rootPath, options);
+```
+
+* Required: `appOrRouter` should either be taken from `var app = express();` or `var router = express.Router();` depending on where you want to mount Serve-SPA. Using a router allows you to mount the SPA on a specific url. E.g. the SPA is mounted on `http://localhost:3000/app/` if you use `app.use('/app', router);`.
+* Required: `rootPath` is the file system path to the SPA resources. The parameter is identical to the one used with `app.use(express.static(rootPath))`.
+* Optional: `options` is an object that allows the following attributes:
+    * `options.staticSettings` is forwarded to the serve-static middleware that is used internally. BTW, these are the same options that are passed to `express.static(rootPath, staticSettings)`. See the [documentation of serve-static's options](https://github.com/expressjs/serve-static#options) for details.
+    * `options.beforeAll` takes a middleware that is executed before a template is rendered. Use it to do general things that are required for all templates. If you need to to things for a particular template use a compose.js file instead.
+    * `options.templateSettings` is forwarded to lodash's `_.template(template, templateSettings)`. See the [documentation of `_.templateSettings`](https://lodash.com/docs#templateSettings) for details.
+    * `options.require` takes a particular require function for being used within the template rendering. If the option is not given Serve-SPA provides its own require function when rendering a template. This require function might have a different module path lookup hierarchy. Thus the option allows to pass another require function that has a preferred module path lookup hierarchy.
 
 ### The HTML Template(s) "index.htmlt"
 
-Description forthcoming.
+The template is a html file which may contain JavaScript mix-ins:
+
+``` html
+<!doctype html>
+<html>
+    <head>
+        <title>Example template</title>
+    </head>
+    <body>
+        Today is: <%= (new Date()).toString() %><br/>
+		<ul>
+            <% _.forEach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], function (day, i) { %>
+                <li<%= (new Date()).getDay() === i ? ' style="color: red;"' : '' %>>
+                    <%= day %>
+                </li>
+            <% }); %>
+		</ul>
+    </body>
+</html>
+```
+
+This produces:
+
+``` html
+Today is: Tue Oct 20 2015 16:09:40 GMT+0200 (CEST)<br/>
+<ul>
+    <li>Sunday</li>
+    <li>Monday</li>
+    <li style="color: red;">Tuesday</li>
+    <li>Wednesday</li>
+    <li>Thursday</li>
+    <li>Friday</li>
+    <li>Saturday</li>
+</ul>
+```
+
+Within the template the following variables are available:
+
+* `_`: The lodash library
+* `require`: Node's require function
+* `request` and `req`: The request object provided by Express
+* `response` and `res`: The response object provided by Express
 
 #### Error Handling
 
-Description forthcoming.
+If the rendering fails an Error is forwarded to the next error handling middleware. You may register your own error handling middleware like this:
+
+``` js
+// First Serve-SPA
+serveSpa(app, rootPath);
+
+// Then this middleware with the additional err parameter
+app.use(function (err, req, res, next) {
+
+    // If headers were already sent it gets complicated...
+    if (res.headersSent) {
+        return next(err); // ...just leave it to Express' default error handling middleware.
+    }
+
+    // Do your error handling:
+	console.error(err);
+    res.redirect('/guru-meditation/');
+
+});
+```
 
 ### The Composing Script(s) "compose.js"
 
-Description forthcoming.
+Put a `compose.js` file into the same folder as your `index.htmlt` and it will be executes right before the template is rendered. This allow to e.g. fetch data from the database to use it when rendering the template.
+
+`compose.js` must export a middleware:
+
+``` js
+var db = require('../lib/db.js');
+
+module.exports = function (req, res, next) {
+
+    db.loadData({ for: 'me' }, function (err, data) {
+
+       if (err) {
+           return next(err);
+	   }
+
+       req.data = data; // You can access the data through req.data in the template now.
+	   next();
+
+	});
+
+};
+```
 
 #### Error Handling
 
-Description forthcoming.
+The middleware exported through `compose.js` is used like a regular middleware. Thus the error handling works as usual.
 
 ### The "beforeAll" Hook
 
-Description forthcoming.
+A middleware can be passed through `options.beforeAll` that is executed for all requests that result in rendering a template. If only a static file is requested this middleware is not executed.
+
+The overall execution order is the following:
+
+1. beforeAll middleware
+2. compose.js middleware
+3. Rendering index.htmlt
 
 #### Error Handling
 
-Description forthcoming.
-
-### Serving Static Files and pushState Support
-
-Description forthcoming.
+The provided middleware is used like a regular middleware. Thus the error handling works as usual.
 
 ### Responding to HEAD Requests
 
-Description forthcoming.
+Like `express.static(...)` Serve-SPA only processes GET and HEAD requests. By default for a HEAD request neither the beforeAll and compose.js middlewares are executed nor the index.htmlt template is rendered. However, executing the middlewares can be explicitly activated by adding `callForHEAD = true` to the middleware function:
+
+``` js
+function middlewareForGETandHEAD(req, res, next) {
+
+    res.set('my-header', 'yay');
+
+    if (req.method === 'GET') {
+        db.load(...);
+    }
+}
+
+middlewareForGETandHEAD.callForHEAD = true;
+```
 
 ## Contributing
 
@@ -174,7 +315,7 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 - v1.0.0 (upcoming)
     - **Breaking Change**: Added explicit HEAD request handling
     - Fixed beforeAll hook to only get called when a template is served
-    - Better cache suppresion by removing the ETag header
+    - Better cache suppression by removing the ETag header
     - Updated dependencies
 - v0.3.0 (2015-09-18)
     - Added beforeAll hook
