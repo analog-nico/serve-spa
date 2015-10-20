@@ -1,0 +1,1 @@
+should not be executed <% res.set('set-by-template', ':P'); %>
