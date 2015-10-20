@@ -67,7 +67,7 @@ Serve-SPA brings the power of [lodash's templating](https://lodash.com/docs#temp
 
 If the visitor requests `http://localhost:3000/` this SPA need the `list.html` template to render. To reduce an AJAX call the template should be inlined. However, since other pushState urls don't need this template it should only be inlined if `http://localhost:3000/` is requested. This can be accomplished with the following addition to `index.htmlt`:
 
-``` html
+``` diff
     <body>
 +        <% if (req.path === '/') { %>
 +            <script type="text/ng-template" id="partials/list.html">
