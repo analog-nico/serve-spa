@@ -20,13 +20,13 @@ spa
  |-- app.js
 ```
 
-At first a visitor usually loads you SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognizes `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches *most* of the given url, i.e. `http://localhost:3000/`.
+At first a visitor usually loads your SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognizes `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches the given url *best*, i.e. `http://localhost:3000/`.
 
-All you need to do to activate pushState url support is to rename your `index.html` files to `index.htmlt` (with a t). I.e.:
+All you need to do to activate pushState url support is to rename your `index.html` files to `index.htmlt` (with a *t*). I.e.:
 
 ```
 spa
- |-- index.htmlt <-- Just renamed an pushState urls are supported
+ |-- index.htmlt <-- Just renamed and pushState urls are supported
  |-- app.js
 ```
 
@@ -65,15 +65,15 @@ Serve-SPA brings the power of [lodash's templating](https://lodash.com/docs#temp
 </html>
 ```
 
-If the visitor requests `http://localhost:3000/` this SPA need the `list.html` template to render. To reduce an AJAX call the template should be inlined. However, since other pushState urls don't need this template it should only be inlined if `http://localhost:3000/` is requested. This can be accomplished with the following addition to `index.htmlt`:
+If the visitor requests `http://localhost:3000/` this SPA need the `list.html` template to render. To skip the otherwise necessary AJAX call the template should be inlined. However, since other pushState urls don't need this template it should only be inlined if `http://localhost:3000/` is requested. This can be accomplished with the following addition to `index.htmlt`:
 
 ``` diff
     <body>
-+        <% if (req.path === '/') { %>
-+            <script type="text/ng-template" id="partials/list.html">
-+                <%= require('fs').readFileSync('app/partials/list.html') %>
-+            </script>
-+        <% } %>
++       <% if (req.path === '/') { %>
++           <script type="text/ng-template" id="partials/list.html">
++               <%= require('fs').readFileSync('app/partials/list.html') %>
++           </script>
++       <% } %>
         <div class="container">
             <h1>JavaScript Projects</h1>
             <div ng-view></div>
@@ -81,7 +81,7 @@ If the visitor requests `http://localhost:3000/` this SPA need the `list.html` t
     </body>
 ```
 
-There are ways (e.g. using `compose.js`) to implement this in a cleaner way but you get the idea.
+There are ways (e.g. using `compose.js`) to implement this in a cleaner and non-blocking way but you get the idea.
 
 ## Getting Started
 
@@ -139,7 +139,19 @@ Description forthcoming.
 
 Description forthcoming.
 
+### The "beforeAll" Hook
+
+Description forthcoming.
+
+#### Error Handling
+
+Description forthcoming.
+
 ### Serving Static Files and pushState Support
+
+Description forthcoming.
+
+### Responding to HEAD Requests
 
 Description forthcoming.
 
@@ -159,6 +171,11 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v1.0.0 (upcoming)
+    - **Breaking Change**: Added explicit HEAD request handling
+    - Fixed beforeAll hook to only get called when a template is served
+    - Better cache suppresion by removing the ETag header
+    - Updated dependencies
 - v0.3.0 (2015-09-18)
     - Added beforeAll hook
     - Updated dependencies
