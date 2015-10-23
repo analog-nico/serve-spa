@@ -312,6 +312,8 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- Upcoming release
+    - Improved cache busting
 - v1.0.0 (2015-10-20)
     - **Breaking Change**: Added explicit HEAD request handling
     - Fixed beforeAll hook to only get called when a template is served

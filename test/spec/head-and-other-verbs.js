@@ -59,6 +59,7 @@ describe('Regarding other HTTP verbs, Serve-SPA', function () {
                     expect(response.headers['content-length']).to.eql('0');
                     // No caching
                     expect(response.headers['etag']).to.eql(undefined);
+                    expect(response.headers['surrogate-control']).to.eql('no-store');
                     expect(response.headers['cache-control']).to.eql('no-cache, no-store, must-revalidate');
                     expect(response.headers['pragma']).to.eql('no-cache');
                     expect(response.headers['expires']).to.eql('0');
@@ -95,6 +96,7 @@ describe('Regarding other HTTP verbs, Serve-SPA', function () {
                         expect(response.headers['content-length']).to.eql('0');
                         // No caching
                         expect(response.headers['etag']).to.eql(undefined);
+                        expect(response.headers['surrogate-control']).to.eql('no-store');
                         expect(response.headers['cache-control']).to.eql('no-cache, no-store, must-revalidate');
                         expect(response.headers['pragma']).to.eql('no-cache');
                         expect(response.headers['expires']).to.eql('0');
