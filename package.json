@@ -1,6 +1,6 @@
 {
   "name": "serve-spa",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Express middleware to serve Single Page Applications with pushState urls and increased performance",
   "keywords": [
     "express",

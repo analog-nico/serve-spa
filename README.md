@@ -334,7 +334,7 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
-- v1.1.0 (upcoming)
+- v1.1.0 (2016-05-25)
     - Support for [using multiple roots](#using-multiple-roots)
     - Added node.js v6 to CI build
 - v1.0.1 (2016-04-03)
