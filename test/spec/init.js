@@ -12,7 +12,7 @@ describe('Regarding its initialization, Serve-SPA', function () {
 
         expect(function () {
             initServeSpa();
-        }).to.throw('Please pass the Express app.');
+        }).to.throw('Please pass the Express app or a router.');
 
         expect(function () {
             initServeSpa(app);
