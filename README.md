@@ -20,7 +20,7 @@ spa
  |-- app.js
 ```
 
-At first a visitor usually loads your SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognizes `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches the given url *best*, i.e. `http://localhost:3000/`.
+At first, a visitor usually loads your SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognizes `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches the given url *best*, i.e. `http://localhost:3000/`.
 
 All you need to do to activate pushState url support is to rename your `index.html` files to `index.htmlt` (with a *t*). I.e.:
 
@@ -65,7 +65,7 @@ Serve-SPA brings the power of [lodash's templating](https://lodash.com/docs#temp
 </html>
 ```
 
-If the visitor requests `http://localhost:3000/` this SPA need the `list.html` template to render. To skip the otherwise necessary AJAX call the template should be inlined. However, since other pushState urls don't need this template it should only be inlined if `http://localhost:3000/` is requested. This can be accomplished with the following addition to `index.htmlt`:
+If the visitor requests `http://localhost:3000/` this SPA needs the `list.html` template to render. To skip the otherwise necessary AJAX call the template should be inlined. However, since other pushState urls don't need this template it should only be inlined if `http://localhost:3000/` is requested. This can be accomplished with the following addition to `index.htmlt`:
 
 ``` diff
     <body>
@@ -238,7 +238,7 @@ app.use(function (err, req, res, next) {
 
 ### The Composing Script(s) "compose.js"
 
-Put a `compose.js` file into the same folder as your `index.htmlt` and it will be executes right before the template is rendered. This allow to e.g. fetch data from the database to use it when rendering the template.
+Put a `compose.js` file into the same folder as your `index.htmlt` and it will be executed right before the template is rendered. This allows to e.g. fetch data from the database to use it when rendering the template.
 
 `compose.js` must export a middleware:
 
@@ -281,7 +281,7 @@ The provided middleware is used like a regular middleware. Thus the error handli
 
 ### Responding to HEAD Requests
 
-Like `express.static(...)` Serve-SPA only processes GET and HEAD requests. By default for a HEAD request neither the beforeAll and compose.js middlewares are executed nor the index.htmlt template is rendered. However, executing the middlewares can be explicitly activated by adding `callForHEAD = true` to the middleware function:
+Like `express.static(...)` Serve-SPA only processes GET and HEAD requests. By default, for a HEAD request neither the beforeAll and compose.js middlewares are executed nor the index.htmlt template is rendered. However, executing the middlewares can be explicitly activated by adding `callForHEAD = true` to the middleware function:
 
 ``` js
 function middlewareForGETandHEAD(req, res, next) {
