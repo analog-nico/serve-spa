@@ -1,0 +1,1 @@
+static.txt - separate-root/folder - should be overwritten

@@ -1,0 +1,1 @@
+existsAtSeparateRootAndRealRoot.txt - separate-root - should be overwritten
