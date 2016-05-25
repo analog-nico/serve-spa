@@ -20,7 +20,7 @@ spa
  |-- app.js
 ```
 
-At first, a visitor usually loads your SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognizes `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches the given url *best*, i.e. `http://localhost:3000/`.
+At first, a visitor usually loads your SPA via the base url `http://localhost:3000/`. Thus index.html is served and also app.js is loaded. Next the visitor navigates through your SPA which updates the url using pushState and e.g. arrives at `http://localhost:3000/profile/me`. The visitor might now bookmark this page and open it again the next day. express.static would send a 404 for this url because the served folder does not contain a "profile" folder containing a "me" file. Serve-SPA, however, recognises `http://localhost:3000/profile/me` as a pushState url and searches the folder structure for a page that matches the given url *best*, i.e. `http://localhost:3000/`.
 
 All you need to do to activate pushState url support is to rename your `index.html` files to `index.htmlt` (with a *t*). I.e.:
 
@@ -152,7 +152,7 @@ Serve-SPA depends on a loosely defined version of serve-static. If you want to i
 
 ## Usage
 
-### Initialization
+### Initialisation
 
 ``` js
 var serveSpa = require('serve-spa');
@@ -161,7 +161,7 @@ serveSpa(appOrRouter, rootPath, options);
 ```
 
 * Required: `appOrRouter` should either be taken from `var app = express();` or `var router = express.Router();` depending on where you want to mount Serve-SPA. Using a router allows you to mount the SPA on a specific url. E.g. the SPA is mounted on `http://localhost:3000/app/` if you use `app.use('/app', router);`.
-* Required: `rootPath` is the file system path to the SPA resources. The parameter is identical to the one used with `app.use(express.static(rootPath))`.
+* Required: `rootPath` is the file system path to the SPA resources. The parameter is identical to the one used with `app.use(express.static(rootPath))`. Also, `rootPath` may be an array of paths to [use multiple roots](#using-multiple-roots).
 * Optional: `options` is an object that allows the following attributes:
     * `options.staticSettings` is forwarded to the serve-static middleware that is used internally. BTW, these are the same options that are passed to `express.static(rootPath, staticSettings)`. See the [documentation of serve-static's options](https://github.com/expressjs/serve-static#options) for details.
     * `options.beforeAll` takes a middleware that is executed before a template is rendered. Use it to do general things that are required for all templates. If you need to to things for a particular template use a compose.js file instead.
@@ -296,6 +296,28 @@ function middlewareForGETandHEAD(req, res, next) {
 middlewareForGETandHEAD.callForHEAD = true;
 ```
 
+### Using Multiple Roots
+
+The [Serve-Static README](https://github.com/expressjs/serve-static#multiple-roots) explains to use multiple roots like this:
+
+``` js
+app.use(serveStatic(path.join(__dirname, '/public-optimized')));
+app.use(serveStatic(path.join(__dirname, '/public')));
+```
+
+With Serve-SPA, however, using multiple middlewares like this is not possible anymore. Because properly handling the pushState urls makes it more complex.
+
+To provide the same support of multiple roots, Serve-SPA takes an array of root paths. The following code is equivalent to the Serve-Static example above:
+
+``` js
+serveSpa(app, [
+    path.join(__dirname, '/public-optimized'),
+    path.join(__dirname, '/public')
+]);
+```
+
+A url is only identified as a pushState url if no static resource in all given paths matches the url. And a pushState url is applied to the SPA that matches *best* as usual &ndash; as if the given directories were merged.
+
 ## Contributing
 
 To set up your development environment for Serve-SPA:
@@ -312,6 +334,9 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v1.1.0 (upcoming)
+    - Support for [using multiple roots](#using-multiple-roots)
+    - Added node.js v6 to CI build
 - v1.0.1 (2016-04-03)
     - Improved cache busting
     - Added node.js v5 to CI build
