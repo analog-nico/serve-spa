@@ -334,6 +334,8 @@ If you want to debug a test you should use `gulp test-without-coverage` to run a
 
 ## Change History
 
+- v1.1.1 (2016-06-20)
+    - Updated dependencies to install a patched version of `minimatch` as [advised by the Node Security Platform](https://nodesecurity.io/advisories/118)
 - v1.1.0 (2016-05-25)
     - Support for [using multiple roots](#using-multiple-roots)
     - Added node.js v6 to CI build
